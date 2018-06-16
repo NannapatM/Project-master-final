@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Android Boilerplate</string>
+
+    <string name="some_error">System Error</string>
+    <string name="loading">Loading</string>
+    <string name="latitude">Latitude</string>
+    <string name="longitude">Longitude</string>
+    <string name="bearing">Bearing</string>
+    <string name="location">Location</string>
+    <string name="distance">Distance</string>
+    <string name="action_setting">Action Setting</string>
+</resources>
