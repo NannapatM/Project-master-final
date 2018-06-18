@@ -62,9 +62,10 @@ class ApiModule {
 
         return Retrofit.Builder()
                 .client(okHttpClient)
-               .baseUrl("http://172.20.10.2:4444/") //172.20.10.5 , 4444  http(s)://[ip]:[port]/
+      //         .baseUrl("http://172.20.10.2:4444/") //172.20.10.5 , 4444  http(s)://[ip]:[port]/
      //          .baseUrl("https://wifi-locator-mock.herokuapp.com/") //172.20.10.2 , 8080
-              //  .baseUrl("")
+                .baseUrl("http://192.168.0.158:4444/")
+                //  .baseUrl("")
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()

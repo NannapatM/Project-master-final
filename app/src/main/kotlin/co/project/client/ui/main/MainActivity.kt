@@ -41,9 +41,10 @@ class MainActivity : BaseActivity(), MainMvp.View {
     @BindView(R.id.editLong) lateinit var editLongText: AppCompatEditText
   //  @BindView(R.id.distance_text) lateinit var locationText: AppCompatTextView
 
-  //  var editLatText = findViewById<EditText>(R.id.editLat)
-  //  var editLongText = findViewById<EditText>(R.id.editLong)
+  //  val editLatText = findViewById<EditText>(R.id.editLat) as EditText
+  //  val editLongText = findViewById<EditText>(R.id.editLong) as EditText
     var client: Client? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,6 +87,9 @@ class MainActivity : BaseActivity(), MainMvp.View {
             LocationHelper.instance.getLocation(this)?.let {
                 latText.text = "Latitude: ${it.latitude}"
                 longText.text = "Longitude: ${it.longitude}"
+                editLatText.setText("${it.latitude}")
+                editLongText.setText("${it.longitude}")
+
 
                         //editLatText.inputType = textView.getText().toFloaat()
                 val temp = Location(android.location.LocationManager.GPS_PROVIDER)
@@ -117,12 +121,17 @@ class MainActivity : BaseActivity(), MainMvp.View {
 
     @OnClick(R.id.rssi_page)
     fun onNetPage(){
+
         this.client?.let {
             val intents = Intent(this, rssiActivity::class.java)
+            val latUser: String = editLatText.text.toString()
+            val longUser: String = editLongText.text.toString()
             Log.d("Net", "param   " + this.client)
-            intents.putExtra("client", this.client);
-            intent.putExtra("lat",editLatText.text)
-            intent.putExtra("long",editLongText.text)
+            intents.putExtra("client", this.client)
+            intents.putExtra("lat",latUser)
+            intents.putExtra("long",longUser)
+            Log.d("latUser","this is latUser :   " + latUser)
+            Log.d("longUser","this is longUser :   " + longUser)
             startActivity(intents)
         }
 

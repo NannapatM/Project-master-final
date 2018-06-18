@@ -96,6 +96,8 @@ class CompassActivity : BaseActivity(), CompassMvp.View {
         val ssid = b!!.getString("ssid")
         val list = b.getIntegerArrayList("list")
         val bssid = b!!.getString("bssid")
+        val latUser= b!!.getString("lat")
+        val longUser = b!!.getString("long")
 
         Log.d("CompassSSID",ssid)
         Log.d("CompassList","this is list"+list)
@@ -107,8 +109,8 @@ class CompassActivity : BaseActivity(), CompassMvp.View {
                     presenter.post(it.id, list,ssid,bssid)
                 }
 
-                latText.text = "Latitude: ${it.latitude}"
-                longText.text = "Longitude: ${it.longitude}"
+                latText.text = "Latitude:  " + latUser
+                longText.text = "Longitude: " + longUser
 
             }
         }

@@ -80,8 +80,8 @@ class rssiActivity : AppCompatActivity() {
         longEdit = intent.getStringExtra("long")
 
         Log.d("clientRssi", "client" + client)
-        Log.d("lat","Rssilat:"+ latEdit)
-        Log.d("long","Rssilong:"+ longEdit)
+        Log.d("lat","Rssilat:    "+ latEdit)
+        Log.d("long","Rssilong:   "+ longEdit)
       //  setup()
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
