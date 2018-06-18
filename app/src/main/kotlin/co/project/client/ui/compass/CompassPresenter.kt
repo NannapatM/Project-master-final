@@ -20,25 +20,27 @@ import io.reactivex.schedulers.Schedulers
 class CompassPresenter<V : CompassMvp.View> @Inject
 constructor(private val dataManager : DataManager) : BasePresenter<V>(), CompassMvp.Presenter<V> {
 
-    override var currentLocation: Location? = null
+    override var lat: Double? = null
+    override var long: Double? = null
 
-    override fun post(id: String, rssi: ArrayList<Int>, ssid: String, bssid:String) {
+    override fun post(id: String, rssi: ArrayList<Int>, ssid: String, bssid:String, lat: Double, long: Double) {
         view.showLoading()
-        currentLocation?.let {
+
             dataManager.serverService
-                    .update(UpdateParam(id, ssid, rssi, it.latitude, it.longitude ,bssid))
+                    .update(UpdateParam(id, ssid, rssi, lat, long, bssid))
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
                     .onErrorReturn { err ->
                         err.printStackTrace()
-                        Response("", "", 0, "0.0", "0.0","")
+                        Response("", "", 0, "0.0", "0.0", "")
                     }
                     .subscribe(
                             { response ->
                                 Toast.makeText(view.getContext(), "SENT", Toast.LENGTH_SHORT).show()
                                 view.hideLoading()
-                                view.onReceiveDestination(response.lat?.toDouble() ?: 0.0, response.long?.toDouble() ?: 0.0)
-                              //  view.onReceiveDestination(response.lat, response.long)
+                                view.onReceiveDestination(response.lat?.toDouble()
+                                        ?: 0.0, response.long?.toDouble() ?: 0.0)
+                                //  view.onReceiveDestination(response.lat, response.long)
                                 //view.onReceiveDestination(Double)
 
                             },
@@ -49,7 +51,8 @@ constructor(private val dataManager : DataManager) : BasePresenter<V>(), Compass
                             }
                     )
 
-        }
+     //   }
+   // }
     }
 
     private val alpha = 0.97f
@@ -83,11 +86,14 @@ constructor(private val dataManager : DataManager) : BasePresenter<V>(), Compass
             val orientation = FloatArray(3)
             SensorManager.getOrientation(arrR, orientation)
 
-            currentLocation?.let {
-                azimuth = Math.toDegrees(orientation[0].toDouble()).toFloat() // orientation
-                azimuth = (azimuth + azimuthFix + 360f) % 360
-                azimuth -= getBearing(it.latitude, it.longitude, 13.787246, 100.276106).toFloat()
-                view.adjustArrow(azimuth)
+            lat?.let {
+                long?.let {
+
+                    azimuth = Math.toDegrees(orientation[0].toDouble()).toFloat() // orientation
+                    azimuth = (azimuth + azimuthFix + 360f) % 360
+                    azimuth -= getBearing(it, it, 13.787246, 100.276106).toFloat()
+                    view.adjustArrow(azimuth)
+                }
             }
         }
     }
