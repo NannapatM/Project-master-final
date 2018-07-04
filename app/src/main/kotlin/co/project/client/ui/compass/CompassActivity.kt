@@ -44,7 +44,7 @@ class CompassActivity : BaseActivity(), CompassMvp.View {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.compass_page)
 
-        mocklist.add(-32);
+      /*  mocklist.add(-32);
         mocklist.add(-36);
         mocklist.add(-31);
         mocklist.add(-32);
@@ -58,7 +58,7 @@ class CompassActivity : BaseActivity(), CompassMvp.View {
         for (z in mocklist.indices) {
 
             Log.d("mocklist", "   "+mocklist[z])
-        }
+        }*/
 
 
 
@@ -96,15 +96,18 @@ class CompassActivity : BaseActivity(), CompassMvp.View {
         val ssid = b!!.getString("ssid")
         val list = b.getIntegerArrayList("list")
         val bssid = b!!.getString("bssid")
-        val latUser= b!!.getString("lat")
-        val longUser = b!!.getString("long")
+        val latUser= b!!.getString("lat").toDouble()
+        val longUser = b!!.getString("long").toDouble()
 
         Log.d("CompassSSID",ssid)
         Log.d("CompassList","this is list"+list)
         Log.d("CompassBSSID",bssid)
         if (LocationHelper.instance.checkPermission(this)) {
             LocationHelper.instance.getLocation(this)?.let {
-                presenter.currentLocation = it
+               presenter.currentLocation = it
+                presenter.Glat = latUser
+                presenter.Glong = longUser
+
                 client?.let {
                     presenter.post(it.id, list,ssid,bssid)
                 }
@@ -116,9 +119,7 @@ class CompassActivity : BaseActivity(), CompassMvp.View {
         }
     }
 
-    override fun onReceiveDestination(lat: Double, long: Double) { //lat: String, long: String
-        //bearingText.text = "Bearing: ${it.bearingTo(temp)}"
-//        locationText.text = "Distance: ${it.distanceTo(temp)} meters"
+    override fun onReceiveDestination(lat: Double, long: Double) {
         Timber.e("kai ka start here")
         desLatText.text = "Destination Lat: $lat"
         Timber.e("kai kak is here")
@@ -126,8 +127,7 @@ class CompassActivity : BaseActivity(), CompassMvp.View {
 
         Log.d("RLat","Lat: $lat")
         Log.d("RLong","Long: $long")
-       // desLatText.text ="this is receive: $lat"
-      //  Log.d("latkaedok","this is lat: $lat")
+
     }
 
 

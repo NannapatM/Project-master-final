@@ -48,11 +48,6 @@ import javax.inject.Inject
 
 class rssiActivity : AppCompatActivity() {
 
-  //  @BindView(R.id.tvLevel) lateinit var TvLevel: AppCompatTextView
-  //  @BindView(R.id.tvSecurity) lateinit var TvSecurity: AppCompatTextView
-  //  @BindView(R.id.tvSSID) lateinit var TvSsid:AppCompatTextView
-  //@Inject lateinit var presenter: RssiPresenter<RssiMvp.View>
-
     private var nets = arrayOfNulls<Element>(20)
     private var client : Client? = null
     private var latEdit : String? = null
@@ -72,9 +67,7 @@ class rssiActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.rssi_page)
         val b = intent.extras
-   //     val latEdit = b.getDouble("lat")
 
-   //     val longEdit = b.getDouble("long")
         client = intent.getParcelableExtra("client")
         latEdit = intent.getStringExtra("lat")
         longEdit = intent.getStringExtra("long")
@@ -87,11 +80,6 @@ class rssiActivity : AppCompatActivity() {
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-
-
-
-         //client = intent.getParcelableExtra("client");
-
         val fab = findViewById<FloatingActionButton>(R.id.fab)
         fab.setOnClickListener { view ->
             detectWiFi()
@@ -99,56 +87,11 @@ class rssiActivity : AppCompatActivity() {
                     .setAction("Action", null).show()
         }
 
-
-
-
-      /*  val fabCon = findViewById<FloatingActionButton>(R.id.connectionBtn)
-        fabCon.setOnClickListener{ view ->
-          //  presenter.connectToServer()
-            Snackbar.make(view,"connecting to server...", Snackbar.LENGTH_SHORT)
-                    .setAction("Action", null).show()
-
-        }*/
     }
 
-   /* override fun setup() {
-        activityComponent.inject(this)
-        unbinder = ButterKnife.bind(this)
-        presenter.attachView(this)
-    }*/
-
-
-
-    /*public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if (requestCode == PERMISSIONS_REQUEST_CODE_ACCESS_COARSE_LOCATION
-                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            // Do something with granted permission
-            mWifiListener.getScanningResults();
-        }
-    }*/
-    /*fun alert(){
-        val dialog= ProgressDialog(this)
-        dialog.setMessage("Please wait")
-        dialog.setTitle("Loading")
-        dialog.setCancelable(false)
-        dialog.isIndeterminate=true
-        dialog.show()
-    }*/
     fun detectWiFi() {
         //TODO: Permission!!!
-        /*if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-            requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
-                    PERMISSIONS_REQUEST_CODE_ACCESS_COARSE_LOCATION);
-            //After this point you wait for callback in onRequestPermissionsResult(int, String[], int[]) overriden method
 
-        }else{
-            //getScanningResults();
-            //do something, permission was previously granted; or legacy device
-
-            this.wifiManager = (WifiManager)getSystemService(Context.WIFI_SERVICE);
-            this.wifiManager.startScan();
-            this.wifiList = this.wifiManager.getScanResults();
-        }*/
         this.wifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
 
         this.wifiManager!!.startScan()
@@ -157,7 +100,6 @@ class rssiActivity : AppCompatActivity() {
         Log.d("TAG", wifiList!!.toString())
 
         this.nets = arrayOfNulls<Element>(wifiList!!.size)
-      //  this.nets = arrayOfNulls<Element>?(9)
         for (i in wifiList!!.indices) {
             val item = wifiList!![i].toString()
             val vector_item = item.split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
@@ -179,54 +121,29 @@ class rssiActivity : AppCompatActivity() {
         val info = findViewById<TextView>(R.id.info)
         netlist.adapter = adapterElements
         netlist.setSelector(R.drawable.listselector)
-       // Toast.makeText(getApplicationContext(),"Sending",Toast.LENGTH_SHORT).show();
-
-
-        //  Toast.makeText(MainActivity.this, "This is my Toast message!", Toast.LENGTH_LONG).show();
         netlist.onItemClickListener = AdapterView.OnItemClickListener { adapterView, view, i, l ->
-           // Toast.makeText(applicationContext,"Sending",Toast.LENGTH_SHORT).show()
 
             var c = 0
             var k: Int
             val name = nets[i]!!.title
             val bssid = nets[i]!!.bssid
-           // ProgressBar.show(this, "Loading", "Wait while loading...");
-           /* val dialog= ProgressDialog(this)
-            dialog.setMessage("Please wait")
-            dialog.setTitle("Loading")
-            dialog.setCancelable(false)
-            dialog.isIndeterminate=true
-            dialog.show()*/
-
-            //alert()
 
             while (c < 10) {
 
                 k = 0
                 while (k < wifiList!!.size && name.compareTo(nets[k]!!.title) != 0) {
-
-                    //Toast.makeText(this, nets[k]!!.level + " selected", Toast.LENGTH_LONG).show();
                     k++
                 }
 
                 list.add(nets[k]!!.level)
 
-             //   Toast.makeText(getApplicationContext(),"Loading..." + c, Toast.LENGTH_LONG).show();
-                //   String name = nets[i].getTitle();
-
                 Log.d("round", "roundc" + c + nets[k]!!.title + nets[k]!!.level)
 
-
-               // Toast.makeText(getApplicationContext(),"Sending.....",Toast.LENGTH_SHORT).show();
                 c++
                 SystemClock.sleep(2000)
-                // Toast.makeText(getApplicationContext(), "This is my Toast message!", Toast.LENGTH_SHORT).show();
                 detectWiFi()
 
-
-                //  Toast.makeText(MainActivity.this,"Send", Toast.LENGTH_SHORT).show();
             }
-            // Toast.makeText(MainActivity.this,"Send", Toast.LENGTH_SHORT).show();
 
             for (z in list.indices) {
 
@@ -242,7 +159,6 @@ class rssiActivity : AppCompatActivity() {
                 intent.putStringArrayListExtra("list",list)
                 Log.d("clientList","list"+list)
                 intent.putExtra("bssid",bssid)
-               // intent.putExtra("rssiList",list)
                 intent.putExtra("client", this.client)
                 Log.d("clientIntent","param:  "+ this.client)
                 intent.putExtra("lat",latEdit)
@@ -253,21 +169,11 @@ class rssiActivity : AppCompatActivity() {
                 startActivity(intent)
             }
 
-         /*   val move = Intent(this@MainActivity, Main2Activity::class.java)
-            move.putExtra("demo", "demo")
-            startActivity(move)*/
             list.clear()
         }
 
 
     }
-
-    /*fun move(view: View) {
-        val move = Intent(this@MainActivity, Main2Activity::class.java)
-
-        move.putExtra("demo", "demo")
-        startActivity(move)
-    }*/
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -276,11 +182,7 @@ class rssiActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         val id = item.itemId
-
 
         return if (id == R.id.action_settings) {
             true
@@ -293,15 +195,12 @@ class rssiActivity : AppCompatActivity() {
             val inflater = context.layoutInflater
             val item = inflater.inflate(R.layout.items, null)
 
-            //val tvSsid = inflater.inflate(R.id.tvSSID,null)
             val tvSsid = item.findViewById<TextView>(R.id.tvSSID)
             tvSsid.text = nets[position]!!.title
 
-           // val tvSecurity = item.findViewById(R.id.tvSecurity) as TextView
             val tvSecurity = item.findViewById<TextView>(R.id.tvSecurity)
             tvSecurity.text = nets[position]!!.security
 
-            //val tvLevel = item.findViewById(R.id.tvLevel) as TextView
             val tvLevel = item.findViewById<TextView>(R.id.tvLevel)
             tvLevel.text = "Signal Level: " + nets[position]!!.level
 
@@ -330,9 +229,6 @@ class rssiActivity : AppCompatActivity() {
         conf.allowedProtocols.set(WifiConfiguration.Protocol.WPA)
 
         val wifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
-
-        //Toast.makeText(MainActivity.this, "Name of wifi: " + networkSSID + " Password " + networkPassword, Toast.LENGTH_SHORT).show();
-
 
         val netId = wifiManager.addNetwork(conf)
 

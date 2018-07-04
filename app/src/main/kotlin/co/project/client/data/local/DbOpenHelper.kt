@@ -17,14 +17,11 @@ class DbOpenHelper constructor(val context: Context):
 
     override fun onConfigure(db: SQLiteDatabase) {
         super.onConfigure(db)
-        //Uncomment line below if you want to enable foreign keys
-        //db.execSQL("PRAGMA foreign_keys=ON;");
     }
 
     override fun onCreate(db: SQLiteDatabase) {
         db.beginTransaction()
         try {
-//            db.execSQL(Db.RibotProfileTable.CREATE)
             db.setTransactionSuccessful()
         } catch (e: SQLException) {
             Timber.e(e)

@@ -7,7 +7,6 @@ class UpdateParam(
         val ssid: String,
         val rssi: ArrayList<Int>,
         val lat: Double,
-//        @SerializedName("this_is_how_to_fucking_rename_this_thing")
         val long: Double,
         val bssid: String
 )

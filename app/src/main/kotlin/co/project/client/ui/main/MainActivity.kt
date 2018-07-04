@@ -39,19 +39,13 @@ class MainActivity : BaseActivity(), MainMvp.View {
     @BindView(R.id.long_text) lateinit var longText: AppCompatTextView
     @BindView(R.id.editLat) lateinit var editLatText: AppCompatEditText
     @BindView(R.id.editLong) lateinit var editLongText: AppCompatEditText
-  //  @BindView(R.id.distance_text) lateinit var locationText: AppCompatTextView
 
-  //  val editLatText = findViewById<EditText>(R.id.editLat) as EditText
-  //  val editLongText = findViewById<EditText>(R.id.editLong) as EditText
     var client: Client? = null
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         activityComponent.inject(this)
-
-
 
         if (intent.getBooleanExtra(EXTRA_TRIGGER_SYNC_FLAG, true)) {
             startService(SyncService.getStartIntent(this))
@@ -90,16 +84,9 @@ class MainActivity : BaseActivity(), MainMvp.View {
                 editLatText.setText("${it.latitude}")
                 editLongText.setText("${it.longitude}")
 
-
-                        //editLatText.inputType = textView.getText().toFloaat()
                 val temp = Location(android.location.LocationManager.GPS_PROVIDER)
                 temp.latitude = 37.418436
                 temp.longitude = -121.963477
-                //bearingText.text = "Bearing: ${it.bearingTo(temp)}"
-    //            locationText.text = "Distance: ${it.distanceTo(temp)} meters"
-                //desLatText.text = "Destination Lat: ${temp.latitude}"
-                //desLongText.text = "Destination Long: ${temp.longitude}"
-
             }
         }
     }
@@ -112,9 +99,6 @@ class MainActivity : BaseActivity(), MainMvp.View {
 
 
             Log.d("CompassClient","this is pass value"+this.client)
-        //    Log.d("Latedit","Lat"+editLatText.text.toString().toDouble())
-        //    Log.d("Longedit","Long"+editLongText.text.toString().toDouble())
-
             startActivity(intent)
         }
     }
@@ -143,29 +127,9 @@ class MainActivity : BaseActivity(), MainMvp.View {
     }
 
     override fun onServerConnectionResetted() {
-        connectionTxt.text = "Connection Reset แล้วค่ะอีดอกไก่"
+        connectionTxt.text = "Connection Reset"
         this.client = null
     }
 
-
-
-  /*  @OnClick (R.id.sendIPBtn)
-    fun sendIP(){
-        if(ipInput == null){
-            ipText.text = ("Please input IP address")
-        }
-        else{
-            val intentss = Intent(this, ApiModule::class.java)
-            ipAddr =ipInput.getText().toString()
-
-            Log.d("ip", "ip addr:  "+ipAddr)
-            startActivity(intentss);
-
-        }
-
-    }*/
-
-
-// bssid, lat, long, 10 rssi to server
 
 }

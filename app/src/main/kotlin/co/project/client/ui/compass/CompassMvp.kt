@@ -12,6 +12,8 @@ interface CompassMvp {
     }
     interface Presenter<in V: BaseMvp.View>: BaseMvp.Presenter<V>, SensorEventListener {
         var currentLocation: Location?
+        var Glat:Double?
+        var Glong: Double?
         fun post(id: String, rssi: ArrayList<Int>, ssid: String, bssid: String)
     }
 }

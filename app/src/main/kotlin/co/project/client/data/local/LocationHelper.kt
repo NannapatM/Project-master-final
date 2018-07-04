@@ -95,19 +95,4 @@ class LocationHelper {
         getSensorManager(context)?.unregisterListener(listener)
     }
 
-    fun degToDirection(degree: Int): String {
-        val deg: Int = (degree + 10) / 45
-        return when (deg) {
-            0 -> "N"
-            1 -> "NE"
-            2 -> "E"
-            3 -> "SE"
-            4 -> "S"
-            5 -> "SW"
-            6 -> "W"
-            7 -> "NW"
-            else -> "--"
-        }
-    }
-
 }
