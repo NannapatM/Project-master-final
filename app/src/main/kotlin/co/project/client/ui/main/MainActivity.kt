@@ -91,8 +91,8 @@ class MainActivity : BaseActivity(), MainMvp.View {
         }
     }
 
-    @OnClick(R.id.compass_page)
-    fun onCompassPage(){
+    //@OnClick(R.id.compass_page)
+   /* fun onCompassPage(){
         this.client?.let {
             val intent = Intent(this, CompassActivity::class.java)
             intent.putExtra("client", this.client)
@@ -101,7 +101,7 @@ class MainActivity : BaseActivity(), MainMvp.View {
             Log.d("CompassClient","this is pass value"+this.client)
             startActivity(intent)
         }
-    }
+    }*/
 
     @OnClick(R.id.rssi_page)
     fun onNetPage(){

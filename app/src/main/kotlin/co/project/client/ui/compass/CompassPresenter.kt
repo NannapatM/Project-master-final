@@ -17,12 +17,20 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 @ConfigPersistent
+
 class CompassPresenter<V : CompassMvp.View> @Inject
+
 constructor(private val dataManager : DataManager) : BasePresenter<V>(), CompassMvp.Presenter<V> {
 
     override var Glat: Double? = null
     override var Glong: Double? = null
     override var currentLocation: Location? = null
+    override var Elat: Double = 1.1
+    override var Elong: Double = 1.1
+
+
+   // var Elat: Double? = null
+   // var Elong: Double? = null
 
     override fun post(id: String, rssi: ArrayList<Int>, ssid: String, bssid:String) {
         view.showLoading()
@@ -48,6 +56,10 @@ constructor(private val dataManager : DataManager) : BasePresenter<V>(), Compass
                                     view.onReceiveDestination(response.lat?.toDouble() ?: 0.0, response.long?.toDouble() ?: 0.0)
                                     Log.d("recLat", "lat = " + response.lat)
                                     Log.d("recLong", "long = " + response.long)
+                                    Elat = response.lat.toString().toDouble()
+                                    Elong = response.long.toString().toDouble()
+
+
 
 
                                 },
@@ -68,6 +80,7 @@ constructor(private val dataManager : DataManager) : BasePresenter<V>(), Compass
 
     private val mGravity = FloatArray(3)
     private val mGeomagnetic = FloatArray(3)
+
 
     override fun onAccuracyChanged(p0: Sensor?, p1: Int) {}
     override fun onSensorChanged(event: SensorEvent?) {
@@ -104,8 +117,10 @@ constructor(private val dataManager : DataManager) : BasePresenter<V>(), Compass
                  it.longitude = Glong?.let{it}.toString().toDouble()
                     azimuth = Math.toDegrees(orientation[0].toDouble()).toFloat() // orientation
                     azimuth = (azimuth + azimuthFix + 360f) % 360
-                    azimuth -= getBearing(it.latitude, it.longitude, 13.787246, 100.276106).toFloat()
+                    //azimuth -= getBearing(it.latitude, it.longitude, 13.795785515, 100.32620676).toFloat()
+                    azimuth -= getBearing(it.latitude, it.longitude, Elat,Elong).toFloat()
                     Log.d("currentLocation", "this is currentLo:  " + it.latitude + "," + it.longitude)
+                    Log.d ("EndLocation","End location is :   "+  Elat + "," + Elong)
                     view.adjustArrow(azimuth)
                 }
             }

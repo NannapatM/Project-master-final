@@ -5,6 +5,7 @@ import android.location.Location
 import co.project.client.ui.base.BaseMvp
 
 interface CompassMvp {
+
     interface View: BaseMvp.View {
         fun adjustArrow(azimuth: Float)
         fun onGetLocationClicked()
@@ -14,6 +15,8 @@ interface CompassMvp {
         var currentLocation: Location?
         var Glat:Double?
         var Glong: Double?
+        var Elat: Double
+        var Elong: Double
         fun post(id: String, rssi: ArrayList<Int>, ssid: String, bssid: String)
     }
 }
